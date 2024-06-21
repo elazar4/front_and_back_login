@@ -1,23 +1,14 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+
+import Login from "./view/pages/login/Login.tsx"; // Import the login file
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        
-      </div>
-      <h1>Welcome</h1>
-      <div>
-      <h2>Login</h2>
-      </div>
-      
+      <Login /> {/* Use the login component */}
     </>
-  )
+  );
 }
 
-export default App
+
+export default App;
