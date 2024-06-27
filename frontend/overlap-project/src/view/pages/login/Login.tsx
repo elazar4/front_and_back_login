@@ -1,6 +1,14 @@
 import { useState } from "react";
-import "./Login.css";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+import "./Login.css";
+
+/*
+const formDataObject = {
+  email: '',
+  password: '',
+};
+*/
 
 function CorrectPassword(password: string): boolean {
   if (password.length < 6) {
@@ -11,26 +19,42 @@ function CorrectPassword(password: string): boolean {
 }
 
 function CorrectEmail(email: string): boolean {
-  if ("@".includes(email) === false || ".".includes(email) === false){
-    return false;
-  } else {
+  if (email.includes("@") && email.includes('.')){
     return true;
+  } else {
+    return false;
   }
 }
 
 function Login() {
+  //const [formData, setFormData] = useState(formDataObject);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const welcome = useNavigate();
+
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleCreateAccount = () => {
       navigate("/createAccount");
   };
 
   const handleWelcome = () => {
-    welcome("/Welcome");
+    if (CorrectEmail(email) && CorrectPassword(password)){
+      welcome("/Welcome");
+    }else{
+      setErrorMessage("Invalid email or password");
+    }
 };
+
+/*const handleSubmit = async () => {
+  try {
+    const response = await axios.post("http://localhost:3000/users");
+    console.log('Response from server:', response.data);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};*/
   
   return (
     <>
@@ -55,6 +79,7 @@ function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <p>{errorMessage}</p>
         </div>
         <div>
           Don't have an account? <button onClick={handleCreateAccount}>Create Account</button>
