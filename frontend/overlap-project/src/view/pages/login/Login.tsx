@@ -47,18 +47,20 @@ function Login() {
     }
 };
 
-/*const handleSubmit = async () => {
+const handleSubmit = async () => {
   try {
-    const response = await axios.post("http://localhost:3000/users");
+    const response = await axios.post("http://localhost:3000/login", {email, password});
     console.log('Response from server:', response.data);
+    handleWelcome()
   } catch (error) {
     console.error('Error:', error);
   }
-};*/
+};
   
   return (
-    <>
+    <div>
       <h2>Login</h2>
+
       <div>
         <div>
           Email:
@@ -84,9 +86,10 @@ function Login() {
         <div>
           Don't have an account? <button onClick={handleCreateAccount}>Create Account</button>
         </div>
-        <button type="submit" onClick={handleWelcome}> Login</button>
+        <button type="submit" onClick={handleSubmit}> Login</button>
       </div>
-    </>
+      
+    </div>
   );
 }
 

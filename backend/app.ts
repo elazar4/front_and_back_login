@@ -1,10 +1,48 @@
 import express from 'express';
+import cors from 'cors';
 import mysql from 'mysql2';
+
 
 const app = express();
 const port = 3000;
+var bodyParser = require('body-parser')
 
-// MySQL database connection configuration
+app.use(cors());
+app.use(bodyParser.json());
+
+app.post("/login", (req, res) => {
+    console.log('Request received:', req.body.email, req.body.password);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* MySQL database connection configuration
 const db = mysql.createConnection({
     host: 'localhost',    // Your database host
     user: 'root',         // Your database user
@@ -32,7 +70,7 @@ app.get('/users', (req, res) => {
         }
         res.json(results);
     });
-});
+});*/
 
 // Start the Express server
 app.listen(port, () => {
