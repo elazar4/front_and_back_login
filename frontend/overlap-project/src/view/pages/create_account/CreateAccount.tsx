@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CreateAccount = () => {
   const [firstName, setFirstName] = useState("");
@@ -6,6 +7,11 @@ const CreateAccount = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    navigate("/");
+};
 
   const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFirstName(e.target.value);
@@ -39,6 +45,7 @@ const CreateAccount = () => {
       <div>
         <label htmlFor="firstName">First Name:</label>
         <input
+          placeholder="John"
           type="text"
           id="firstName"
           value={firstName}
@@ -48,6 +55,7 @@ const CreateAccount = () => {
       <div>
         <label htmlFor="lastName">Last Name:</label>
         <input
+          placeholder="Doe"
           type="text"
           id="lastName"
           value={lastName}
@@ -57,6 +65,7 @@ const CreateAccount = () => {
       <div>
         <label htmlFor="email">Email:</label>
         <input
+          placeholder="email@example.com"
           type="email"
           id="email"
           value={email}
@@ -66,6 +75,7 @@ const CreateAccount = () => {
       <div>
         <label htmlFor="password">Password:</label>
         <input
+        placeholder="password"
           type="password"
           id="password"
           value={password}
@@ -75,6 +85,7 @@ const CreateAccount = () => {
       <div>
         <label htmlFor="confirmPassword">Confirm Password:</label>
         <input
+        placeholder="password"
           type="password"
           id="confirmPassword"
           value={confirmPassword}
@@ -82,6 +93,9 @@ const CreateAccount = () => {
         />
       </div>
       <button type="submit">Create Account</button>
+      <div>
+          Already have an account? <button onClick={handleLogin}>Login</button>
+        </div>
     </form>
   );
 };

@@ -31,7 +31,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const welcome = useNavigate();
+  //const welcome = useNavigate();
 
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -41,22 +41,46 @@ function Login() {
 
   const handleWelcome = () => {
     if (CorrectEmail(email) && CorrectPassword(password)){
-      welcome("/Welcome");
+      handleSubmit();
     }else{
       setErrorMessage("Invalid email or password");
     }
 };
 
-const handleSubmit = async () => {
-  try {
+/*const handleSubmit = async () => {
+  try {    
+
+    console.log('tryind send data to the backend');
     const response = await axios.post("http://localhost:3000/login", {email, password});
     console.log('Response from server:', response.data);
-    handleWelcome()
+    navigate("/Welcome");
   } catch (error) {
     console.error('Error:', error);
   }
+};*/
+
+const handleSubmit = async () => {
+  try {    
+    console.log('Trying to send data to the backend');
+    const response = await axios.post("http://localhost:3000/login", { email, password });
+    console.log('Response from server:', response.data);
+
+    if (response.status === 200) {
+      console.log('Navigation to /Welcome');
+      navigate("/Welcome");
+    } else {
+      console.log('Unexpected response status:', response.status);
+    }
+  } catch (error: any) {
+    console.error('Error:', error);
+    if (error.response && error.response.data) {
+      setErrorMessage(error.response.data.message || 'Login failed');
+    } else {
+      setErrorMessage('Login failed');
+    }
+  }
 };
-  
+
   return (
     <div>
       <h2>Login</h2>
@@ -83,12 +107,11 @@ const handleSubmit = async () => {
           />
           <p>{errorMessage}</p>
         </div>
-        <div>
+        <button type="submit" onClick={handleWelcome}> Login</button>
+      </div>
+      <div>
           Don't have an account? <button onClick={handleCreateAccount}>Create Account</button>
         </div>
-        <button type="submit" onClick={handleSubmit}> Login</button>
-      </div>
-      
     </div>
   );
 }

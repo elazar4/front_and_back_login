@@ -1,17 +1,24 @@
 import express from 'express';
 import cors from 'cors';
 import mysql from 'mysql2';
+import bodyParser from 'body-parser';
 
 
 const app = express();
 const port = 3000;
-var bodyParser = require('body-parser')
+
 
 app.use(cors());
 app.use(bodyParser.json());
 
 app.post("/login", (req, res) => {
-    console.log('Request received:', req.body.email, req.body.password);
+    const { email, password } = req.body;
+    console.log('Request received:', email, password);
+    if (email && password) {
+        return res.status(200).json({ message: 'Login successful' });
+    } else {
+        return res.status(400).json({ message: 'Email and password are required' });
+    }
 });
 
 
