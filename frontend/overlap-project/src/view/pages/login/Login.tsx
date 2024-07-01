@@ -11,19 +11,11 @@ const formDataObject = {
 */
 
 function CorrectPassword(password: string): boolean {
-  if (password.length < 6) {
-    return false;
-  } else {
-    return true;
-  }
+  return password.length >= 6
 }
 
 function CorrectEmail(email: string): boolean {
-  if (email.includes("@") && email.includes('.')){
-    return true;
-  } else {
-    return false;
-  }
+  return email.includes("@") && email.includes('.')
 }
 
 function Login() {
