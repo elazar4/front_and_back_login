@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import 'react-datepicker/dist/react-datepicker.css';
+import "./CreateAccount.css";
+
+
 interface BooleanArray {
   firstNameValid: boolean;
   LastNameValid: boolean;
   emailValid: boolean;
   passwordValid: boolean;
   confirmPasswordValid: boolean;
+  ageValid: boolean;
 }
 
 // Initialize the boolean array with specific values
@@ -15,7 +20,8 @@ const booleanArray: BooleanArray = {
   LastNameValid: false,
   emailValid: false,
   passwordValid: false,
-  confirmPasswordValid: false
+  confirmPasswordValid: false,
+  ageValid: false,
 };
 
 function CreateAccount () {
@@ -33,6 +39,9 @@ function CreateAccount () {
 
   const [confirmPassword, setConfirmPassword] = useState("");
   const [ConfirmPasswordErrorMessage, setConfirmPasswordErrorMessage] = useState('');
+
+  const [age, setAge] = useState<string>('');
+  const [AgeErrorMessage, setAgeErrorMessage] = useState('');
 
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -114,10 +123,37 @@ function CreateAccount () {
     }
   };
 
+  const calculateDateDifference = (date: string): number => {
+    console.log('Date input (before conversion):', date);
+
+    const [year, month, day] = date.split('-').map(Number);
+    const givenDate = new Date(year, month - 1, day);
+
+    givenDate.setHours(0, 0, 0, 0);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const timeDifference = today.getTime() - givenDate.getTime();
+    return Math.floor(timeDifference / (1000 * 3600 * 24)) / 365;
+  };
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newDate = e.target.value;
+    setAge(e.target.value);
+    if (calculateDateDifference(newDate) < 10 && newDate !== '') {
+      booleanArray.ageValid = false
+      setAgeErrorMessage('Age must be 10 minimum');
+    } else {
+      booleanArray.ageValid = newDate !== ''
+      setAgeErrorMessage('');
+    }
+  };
+
   const allTrue = Object.values(booleanArray).every(value => value === true);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = () => {
     if(allTrue){
+      booleanArray.firstNameValid = false
       navigate("/Welcome")
     }
     else{
@@ -126,7 +162,7 @@ function CreateAccount () {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div className="create-account-container">
       <div>
         <label htmlFor="firstName">First Name:</label>
         <input
@@ -149,6 +185,18 @@ function CreateAccount () {
         />
         {LastNameErrorMessage && <p style={{ color: 'red' }}>{LastNameErrorMessage}</p>}
       </div>
+      <div>
+      <label htmlFor="age">Age:</label>
+      <input
+        placeholder="Select your birth date"
+        type="date"
+        name="age"
+        id="age"
+        value={age}
+        onChange={handleDateChange}
+      />
+      {AgeErrorMessage && <p style={{ color: 'red' }}>{AgeErrorMessage}</p>}
+    </div>
       <div>
         <label htmlFor="email">Email:</label>
         <input
@@ -182,11 +230,12 @@ function CreateAccount () {
         />
         {ConfirmPasswordErrorMessage && <p style={{ color: 'red' }}>{ConfirmPasswordErrorMessage}</p>}
       </div>
-      <button type="submit">Create Account</button>
-      <div>
+      <button type="submit" onClick={handleSubmit}>Create Account</button>
+      <p>{errorMessage}</p>
+      <div className="login-redirect">
           Already have an account? <button onClick={handleLogin}>Login</button>
         </div>
-    </form>
+        </div>
   );
 };
 

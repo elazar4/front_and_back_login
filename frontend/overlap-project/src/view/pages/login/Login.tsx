@@ -74,8 +74,8 @@ const handleSubmit = async () => {
 };
 
   return (
-    <div>
-      <h2>Login</h2>
+<div className="login-container">
+        <h2>Login</h2>
 
       <div>
         <div>
@@ -101,7 +101,7 @@ const handleSubmit = async () => {
         </div>
         <button type="submit" onClick={handleWelcome}> Login</button>
       </div>
-      <div>
+      <div className="create-account">
           Don't have an account? <button onClick={handleCreateAccount}>Create Account</button>
         </div>
     </div>
