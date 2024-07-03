@@ -1,3 +1,31 @@
+import mysql from 'mysql2'
+
+
+
+const pool = mysql.createPool({
+    host: 'localhost',
+    user: 'root',
+    password: '1234'
+}).promise()
+
+
+const result = await pool.query("SELECT * FROM sys.users")
+console.log(result)
+
+
+
+//import { User, insertUser } from './userService';
+
+
+/*
+const app = express();
+app.use(express.json());
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
 import express from 'express';
 import cors from 'cors';
 import mysql from 'mysql2';
@@ -21,35 +49,7 @@ app.post("/login", (req, res) => {
     }
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* MySQL database connection configuration
+MySQL database connection configuration
 const db = mysql.createConnection({
     host: 'localhost',    // Your database host
     user: 'root',         // Your database user
@@ -77,9 +77,10 @@ app.get('/users', (req, res) => {
         }
         res.json(results);
     });
-});*/
+});
 
 // Start the Express server
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
+*/

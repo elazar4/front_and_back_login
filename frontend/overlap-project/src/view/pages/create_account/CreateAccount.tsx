@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import 'react-datepicker/dist/react-datepicker.css';
 import "./CreateAccount.css";
 
-
 interface BooleanArray {
   firstNameValid: boolean;
   LastNameValid: boolean;
@@ -14,7 +13,6 @@ interface BooleanArray {
   ageValid: boolean;
 }
 
-// Initialize the boolean array with specific values
 const booleanArray: BooleanArray = {
   firstNameValid: false,
   LastNameValid: false,
@@ -24,7 +22,7 @@ const booleanArray: BooleanArray = {
   ageValid: false,
 };
 
-function CreateAccount () {
+function CreateAccount() {
   const [firstName, setFirstName] = useState("");
   const [FirstNameErrorMessage, setFirstNameErrorMessage] = useState('');
 
@@ -49,16 +47,16 @@ function CreateAccount () {
 
   const handleLogin = () => {
     navigate("/");
-};
+  };
 
   const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newFirstName = e.target.value;
     setFirstName(newFirstName);
-    
+
     if ((/[\u0590-\u05FF]/).test(newFirstName) || newFirstName === '') {
       booleanArray.firstNameValid = newFirstName !== ''
       setFirstNameErrorMessage('');
-      
+
     } else {
       booleanArray.firstNameValid = false
       setFirstNameErrorMessage('Name must be in hebrew');
@@ -68,7 +66,7 @@ function CreateAccount () {
   const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newLastName = e.target.value;
     setLastName(newLastName);
-    
+
     if ((/[\u0590-\u05FF]/).test(newLastName) || newLastName === '') {
       booleanArray.LastNameValid = newLastName !== ''
       setLastNameErrorMessage('');
@@ -81,7 +79,7 @@ function CreateAccount () {
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = e.target.value;
     setEmail(newEmail);
-    
+
     if ((newEmail.includes("@") && newEmail.includes('.')) || newEmail === '') {
       booleanArray.emailValid = newEmail !== ''
       setEmailErrorMessage('');
@@ -92,7 +90,7 @@ function CreateAccount () {
   };
 
 
-  
+
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
@@ -105,10 +103,6 @@ function CreateAccount () {
       setPasswordErrorMessage('');
     }
   };
-
-  /*const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };*/
 
   const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newConfirmPassword = e.target.value;
@@ -152,11 +146,11 @@ function CreateAccount () {
   const allTrue = Object.values(booleanArray).every(value => value === true);
 
   const handleSubmit = () => {
-    if(allTrue){
+    if (allTrue) {
       booleanArray.firstNameValid = false
       navigate("/Welcome")
     }
-    else{
+    else {
       setErrorMessage("One or more of the values you entered are incorrect")
     }
   };
@@ -186,17 +180,17 @@ function CreateAccount () {
         {LastNameErrorMessage && <p style={{ color: 'red' }}>{LastNameErrorMessage}</p>}
       </div>
       <div>
-      <label htmlFor="age">Age:</label>
-      <input
-        placeholder="Select your birth date"
-        type="date"
-        name="age"
-        id="age"
-        value={age}
-        onChange={handleDateChange}
-      />
-      {AgeErrorMessage && <p style={{ color: 'red' }}>{AgeErrorMessage}</p>}
-    </div>
+        <label htmlFor="age">Age:</label>
+        <input
+          placeholder="Select your birth date"
+          type="date"
+          name="age"
+          id="age"
+          value={age}
+          onChange={handleDateChange}
+        />
+        {AgeErrorMessage && <p style={{ color: 'red' }}>{AgeErrorMessage}</p>}
+      </div>
       <div>
         <label htmlFor="email">Email:</label>
         <input
@@ -211,7 +205,7 @@ function CreateAccount () {
       <div>
         <label htmlFor="password">Password:</label>
         <input
-        placeholder="password"
+          placeholder="password"
           type="password"
           id="password"
           value={password}
@@ -222,7 +216,7 @@ function CreateAccount () {
       <div>
         <label htmlFor="confirmPassword">Confirm Password:</label>
         <input
-        placeholder="password"
+          placeholder="password"
           type="password"
           id="confirmPassword"
           value={confirmPassword}
@@ -233,9 +227,9 @@ function CreateAccount () {
       <button type="submit" onClick={handleSubmit}>Create Account</button>
       <p>{errorMessage}</p>
       <div className="login-redirect">
-          Already have an account? <button onClick={handleLogin}>Login</button>
-        </div>
-        </div>
+        Already have an account? <button onClick={handleLogin}>Login</button>
+      </div>
+    </div>
   );
 };
 

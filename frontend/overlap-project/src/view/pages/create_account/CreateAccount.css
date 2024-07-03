@@ -2,7 +2,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #6ec5f4;
+    background-color: #8cecb3;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -11,10 +11,10 @@ body {
   }
   
   .create-account-container {
-    background-color: #2a106b;
+    background-color: #13b56c;
     padding: 40px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(96, 231, 114, 0.704);
     max-width: 400px;
     width: 100%;
   }
@@ -22,7 +22,7 @@ body {
   .create-account-container h2 {
     text-align: center;
     margin-bottom: 20px;
-    color: #333;
+    color: #9ef262;
   }
   
   .create-account-container div {
@@ -35,7 +35,7 @@ body {
   .create-account-container input[type="date"] {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #58ee73;
     border-radius: 5px;
     box-sizing: border-box;
     margin-top: 5px;
@@ -58,7 +58,7 @@ body {
   .create-account-container button {
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
+    background-color: #10ae84;
     color: white;
     border: none;
     border-radius: 5px;
@@ -68,7 +68,7 @@ body {
   
   .create-account-container button[type="submit"]:hover,
   .create-account-container button:hover {
-    background-color: #0056b3;
+    background-color: #24cb8e;
   }
   
   .create-account-container p {
@@ -85,7 +85,7 @@ body {
   
   .create-account-container .login-redirect button {
     width: auto;
-    background-color: #28a745;
+    background-color: #6cd636;
   }
   
   .create-account-container .login-redirect button:hover {
