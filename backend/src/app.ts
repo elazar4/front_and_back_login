@@ -1,17 +1,19 @@
-import express, { Express, Request, Response } from "express";
+import express, { Request, Response } from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import userRoutes from './routes/userRoutes';
 
-const app: Express = express();
-const port = process.env.PORT || 3000;
+dotenv.config();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+const app = express();
+const port = process.env.APP_PORT || 3000;
 
-app.get('/wwww', (req, res) => {
-    res.send('Hello World!1')
-  })
-  
+app.use(cors());
+app.use(express.json());
 
-  app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+app.use('/api', userRoutes)
+
+
+app.listen(port, () => {
+    console.log(`Server is running at http://localhost:${port}`);
+});
