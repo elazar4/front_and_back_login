@@ -10,6 +10,11 @@ const formDataObject = {
 };
 */
 
+interface User {
+  email: string;
+  password: string;
+}
+
 function CorrectPassword(password: string): boolean {
   return password.length >= 6
 }
@@ -22,60 +27,43 @@ function Login() {
   //const [formData, setFormData] = useState(formDataObject);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
   //const welcome = useNavigate();
 
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleCreateAccount = () => {
-      navigate("/createAccount");
+    navigate("/createAccount");
   };
 
-  const handleWelcome = () => {
-    if (CorrectEmail(email) && CorrectPassword(password)){
-      handleSubmit();
-    }else{
+  const handleWelcome = async () => {
+    if (CorrectEmail(email) && CorrectPassword(password)) {
+      handleLogin();
+    } else {
       setErrorMessage("Invalid email or password");
     }
-};
+  };
 
-/*const handleSubmit = async () => {
-  try {    
-
-    console.log('tryind send data to the backend');
-    const response = await axios.post("http://localhost:3000/login", {email, password});
-    console.log('Response from server:', response.data);
-    navigate("/Welcome");
-  } catch (error) {
-    console.error('Error:', error);
-  }
-};*/
-
-const handleSubmit = async () => {
-  try {    
-    console.log('Trying to send data to the backend');
-    const response = await axios.post("http://localhost:3000/login", { email, password });
-    console.log('Response from server:', response.data);
-
-    if (response.status === 200) {
-      console.log('Navigation to /Welcome');
-      navigate("/Welcome");
-    } else {
-      console.log('Unexpected response status:', response.status);
+  const handleLogin = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/api/getUser', {
+        params: { email, password }
+      });
+      setMessage(response.data);
+      navigate('/Welcome')
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        setMessage(error.response.data);
+      } else {
+        setMessage('An error occurred. Please try again later.');
+      }
     }
-  } catch (error: any) {
-    console.error('Error:', error);
-    if (error.response && error.response.data) {
-      setErrorMessage(error.response.data.message || 'Login failed');
-    } else {
-      setErrorMessage('Login failed');
-    }
-  }
-};
+  };
 
   return (
-<div className="login-container">
-        <h2>Login</h2>
+    <div className="login-container">
+      <h2>Login</h2>
 
       <div>
         <div>
@@ -100,10 +88,11 @@ const handleSubmit = async () => {
           <p>{errorMessage}</p>
         </div>
         <button type="submit" onClick={handleWelcome}> Login</button>
+        {message && <p>{message}</p>}
       </div>
       <div className="create-account">
-          Don't have an account? <button onClick={handleCreateAccount}>Create Account</button>
-        </div>
+        Don't have an account? <button onClick={handleCreateAccount}>Create Account</button>
+      </div>
     </div>
   );
 }
