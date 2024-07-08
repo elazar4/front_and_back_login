@@ -3,18 +3,49 @@ import mysql, { RowDataPacket } from 'mysql2';
 import bodyParser from 'body-parser';
 import db from '../db';
 
-interface user {
+interface User {
   firstName: string;
   lastName: string;
-  age: string;
   email: string;
   password: string;
+  age: string;
 }
 
 const router = express.Router();
+/*
+const createUser = async (user: any) => {
+  
+  const { firstName, lastName, age, email, password } = user;
 
-router.post('/createUser', (req, res) => {
-  res.send("Hello1")
+  const query = 'INSERT INTO users (firstName, lastName, age, email, password) VALUES (?, ?, ?, ?, ?)';
+  await db.execute(query, [firstName, lastName, age, email, password]);
+  await db.end();
+};
+
+app.post('/api/users', async (req, res) => {
+  try {
+    const user = req.body;
+    await createUser(user);
+    res.status(201).send('User created successfully');
+  } catch (error) {
+    console.error('Error creating user', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+*/
+
+router.post('/createUser', async (req, res) => {
+  try {
+    const user = req.body;
+    const { firstName, lastName, age, email, password } = user;
+
+  const query = 'INSERT INTO users (firstName, lastName, age, email, password) VALUES (?, ?, ?, ?, ?)';
+  db.query(query, [firstName, lastName, age, email, password]);
+    res.status(201).send('User created successfully');
+  } catch (error) {
+    console.error('Error creating user', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 router.get('/getUser', (req, res) => {

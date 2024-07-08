@@ -2,18 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import "./Login.css";
-
-/*
-const formDataObject = {
-  email: '',
-  password: '',
-};
-*/
-
-interface User {
-  email: string;
-  password: string;
-}
+import { baseUrl } from "../../../const";
 
 function CorrectPassword(password: string): boolean {
   return password.length >= 6
@@ -47,7 +36,7 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/api/getUser', {
+      const response = await axios.get(`${baseUrl}/getUser`, {
         params: { email, password }
       });
       setMessage(response.data);

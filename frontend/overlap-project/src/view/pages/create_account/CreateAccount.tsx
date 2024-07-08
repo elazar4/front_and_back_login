@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 import 'react-datepicker/dist/react-datepicker.css';
 import "./CreateAccount.css";
+import axios from "axios";
+import { baseUrl } from "../../../const";
 
 interface BooleanArray {
   firstNameValid: boolean;
@@ -145,13 +147,40 @@ function CreateAccount() {
 
   const allTrue = Object.values(booleanArray).every(value => value === true);
 
-  const handleSubmit = () => {
+  const handleWelcome = () => {
     if (allTrue) {
       booleanArray.firstNameValid = false
-      navigate("/Welcome")
+      handleSubmit();
     }
     else {
       setErrorMessage("One or more of the values you entered are incorrect")
+    }
+  };
+
+  const handleSubmit = async () => {
+
+    try {
+      const user = { firstName, lastName, age, email, password };
+      /*
+        try {
+    const response = await axios.post('/api/users', user);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating user', error);
+    throw error;
+  }
+      */
+      const result = await axios.post(`${baseUrl}/createUser`, user);
+      setErrorMessage(result.data);
+      //console.log('User created successfully', result);
+      navigate("/Welcome")
+    } catch (error) {
+      //console.error('Error registering user', error);
+      if (axios.isAxiosError(error) && error.response) {
+        setErrorMessage(error.response.data);
+      } else {
+        setErrorMessage('An error occurred. Please try again later.');
+      }
     }
   };
 
@@ -224,7 +253,7 @@ function CreateAccount() {
         />
         {ConfirmPasswordErrorMessage && <p style={{ color: 'red' }}>{ConfirmPasswordErrorMessage}</p>}
       </div>
-      <button type="submit" onClick={handleSubmit}>Create Account</button>
+      <button type="submit" onClick={handleWelcome}>Create Account</button>
       <p>{errorMessage}</p>
       <div className="login-redirect">
         Already have an account? <button onClick={handleLogin}>Login</button>
