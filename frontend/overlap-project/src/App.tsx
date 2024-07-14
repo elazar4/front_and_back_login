@@ -4,6 +4,7 @@ import "./App.css";
 import Login from "./view/pages/login/Login";
 import CreateAccount from "./view/pages/create_account/CreateAccount";
 import Welcome from "./view/pages/Welcome";
+import EditOrDeleteAccount from "./view/pages/EditOrDeleteAccount";
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
     <Routes>
       <Route path="/" element={<Login/>}/>
       <Route path="/Welcome" element={<Welcome/>}/>
-      <Route path="/createAccount" element={<CreateAccount/>}/>
+      <Route path="/createAccount" element={<CreateAccount/>}/> 
+      <Route path="/EditOrDeleteAccount" element={<EditOrDeleteAccount/>}/>
     </Routes>
     </BrowserRouter>
   );

@@ -13,6 +13,7 @@ function CorrectEmail(email: string): boolean {
 }
 
 function Login() {
+  
   //const [formData, setFormData] = useState(formDataObject);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,7 +41,7 @@ function Login() {
         params: { email, password }
       });
       setMessage(response.data);
-      navigate('/Welcome')
+      navigate('/Welcome', {state: {email}})
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         setMessage(error.response.data);
@@ -76,8 +77,10 @@ function Login() {
           />
           <p>{errorMessage}</p>
         </div>
+        <div>
         <button type="submit" onClick={handleWelcome}> Login</button>
         {message && <p>{message}</p>}
+        </div>
       </div>
       <div className="create-account">
         Don't have an account? <button onClick={handleCreateAccount}>Create Account</button>
@@ -87,3 +90,6 @@ function Login() {
 }
 
 export default Login;
+
+
+

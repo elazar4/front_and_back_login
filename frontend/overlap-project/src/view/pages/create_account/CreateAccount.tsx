@@ -149,7 +149,7 @@ function CreateAccount() {
 
   const handleWelcome = () => {
     if (allTrue) {
-      booleanArray.firstNameValid = false
+      //booleanArray.firstNameValid = false
       handleSubmit();
     }
     else {
@@ -173,7 +173,7 @@ function CreateAccount() {
       const result = await axios.post(`${baseUrl}/createUser`, user);
       setErrorMessage(result.data);
       //console.log('User created successfully', result);
-      navigate("/Welcome")
+      navigate("/")
     } catch (error) {
       //console.error('Error registering user', error);
       if (axios.isAxiosError(error) && error.response) {
