@@ -1,7 +1,5 @@
-import express from 'express';
-import mysql, { RowDataPacket } from 'mysql2';
-import bodyParser from 'body-parser';
-import db from '../db';
+import express, { Request, Response } from 'express';
+import { createNewAccount, deleteAccount, loginUser, updateUser } from '../Services/service';
 
 interface User {
   firstName: string;
@@ -11,85 +9,84 @@ interface User {
   age: string;
 }
 
+
+interface ParamsReq extends Request {
+  query: {
+    firstName: string,
+    lastName: string,
+    age: string,
+    email: string,
+    password: string,
+  }
+}
+
+interface updateReq extends Request{
+  body: {
+    email: string,
+    password: string,
+  }
+}
 const router = express.Router();
 
-router.post('/createUser', async (req, res) => {
+router.post('/createUser', async (req:ParamsReq, res:Response) => {
+  const user: User = req.body;
   try {
-    const user = req.body;
-    const { firstName, lastName, age, email, password } = user;
-    
-  db.query('SELECT * FROM users WHERE email = ?', [email], (err, results: RowDataPacket[]) => {
-  if(results.length === 0){
-  const query = 'INSERT INTO users (firstName, lastName, age, email, password) VALUES (?, ?, ?, ?, ?)';
-  db.query(query, [firstName, lastName, age, email, password]);
+    await createNewAccount(user)
     res.status(201).send('User created successfully');
   }
-  else{
-    res.status(401).send('User already exist.');
-  }
-  })
-
-  } catch (error) {
-    console.error('Error creating user', error);
-    res.status(500).send('Internal Server Error');
+  catch (error) {
+    if (error instanceof Error && error.message === "User already exist.") {
+      res.status(409).send(error.message)
+    }
+    else {
+      res.status(500).send('Internal Server Error');
+    }
   }
 });
 
-router.get('/getUser', (req, res) => {
+router.get('/getUser', async (req: ParamsReq, res: Response) => {
   const { email, password } = req.query;
-
   if (!email || !password) {
     return res.status(400).send('Email and password are required.');
   }
 
-  const query = 'SELECT * FROM users WHERE email = ?';
-  db.query(query, [email], (err, results: RowDataPacket[]) => {
-    if (err) {
-      console.error('Error executing query:', err);
-      return res.status(500).send('Internal server error.');
+  try {
+    const user = await loginUser(email, password);
+    res.status(201).send({ massage: 'Login successful.', name: user.firstName });
+  }
+  catch (error) {
+    if (error instanceof Error && error.message === "User not found.") {
+      res.status(404).send(error.message)
     }
-
-    if (results.length === 0) {
-      return res.status(404).send('User not found.');
+    else if (error instanceof Error && error.message === "Invalid password.") {
+      res.status(401).send(error.message)
     }
-
-    const user = results[0];
-
-    if (user.password === password) {
-      return res.status(200).send('Login successful.');
-    } else {
-      return res.status(401).send('Invalid password.');
+    else {
+      res.status(500).send('Internal Server Error');
     }
-  });
+  }
 });
 
 
-router.put('/updateUser', (req, res) => {
-  const { email, newPassword } = req.query;
-  const query = 'UPDATE users SET password = ? WHERE email = ?';
-  db.query(query, [newPassword, email], (err) => {
-    if (err) {
-      console.error('Error executing query:', err);
-      return res.status(500).send('Internal server error.');
-    }
-      return res.status(200).send('Change password successful.');
-  });
+
+router.put('/updateUser', async (req:updateReq, res:Response) => {
+  const { email, password } = req.body;
+  try {
+    await updateUser(email, password)
+    res.status(200).send('Change password successful.');
+  } catch (error) {
+    res.status(500).send('Internal server error.');
+  }
 });
 
-router.delete('/deleteUser', (req, res) => {
-  const {email} = req.query;
-  const query = 'DELETE FROM users WHERE email = ?';
-  db.query(query, [email], (err, results: RowDataPacket[]) => {
-    if (err) {
-      console.error('Error executing query:', err);
-      return res.status(500).send('Internal server error.');
-    }
-
-    if (results.length === 0) {
-      return res.status(404).send('User not found.');
-    }
-    return res.status(200).send('delete user successful.');
-  });
+router.delete('/deleteUser', async (req: ParamsReq, res: Response) => {
+  const { email } = req.query;
+  try {
+    await deleteAccount(email);
+    res.status(200).send('delete user successful.');
+  } catch (error) {
+    res.status(500).send('Internal server error.');
+  }
 });
 
 export default router;

@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes';
-import db from './db';
+import dbConn from './db';
 
 
 
@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
 
-db.connect((err) => {
+dbConn.connect((err) => {
     if (err) {
       console.error('Error connecting to the database:', err);
       return;

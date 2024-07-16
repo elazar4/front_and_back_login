@@ -24,6 +24,14 @@ const booleanArray: BooleanArray = {
   ageValid: false,
 };
 
+export interface User {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  age: string;
+};
+
 function CreateAccount() {
   const [firstName, setFirstName] = useState("");
   const [FirstNameErrorMessage, setFirstNameErrorMessage] = useState('');
@@ -158,24 +166,12 @@ function CreateAccount() {
   };
 
   const handleSubmit = async () => {
-
+    const newUser:User = { firstName, lastName, age, email, password };
     try {
-      const user = { firstName, lastName, age, email, password };
-      /*
-        try {
-    const response = await axios.post('/api/users', user);
-    return response.data;
-  } catch (error) {
-    console.error('Error creating user', error);
-    throw error;
-  }
-      */
-      const result = await axios.post(`${baseUrl}/createUser`, user);
+      const result = await axios.post(`${baseUrl}/createUser`, newUser);
       setErrorMessage(result.data);
-      //console.log('User created successfully', result);
       navigate("/")
     } catch (error) {
-      //console.error('Error registering user', error);
       if (axios.isAxiosError(error) && error.response) {
         setErrorMessage(error.response.data);
       } else {

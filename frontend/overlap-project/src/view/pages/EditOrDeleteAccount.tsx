@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { baseUrl } from "../../const";
 
 interface BooleanArray {
@@ -20,7 +20,7 @@ function EditOrDeleteAccount() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const {email} = location.state;
+  const { email } = location.state;
 
   const [password, setPassword] = useState("");
   const [PasswordErrorMessage, setPasswordErrorMessage] = useState('');
@@ -69,9 +69,18 @@ function EditOrDeleteAccount() {
     navigate("/")
   }
 
-  const handleChangePassword = () => {
-
+  const handleChangePassword = async () => {
+    console.log(password)
+    const response = await axios.put(`${baseUrl}/updateUser`, {
+      email, password
+    });
+    setMessage(response.data);
+    if (response.data === "Change password successful.") {
+      alert("Password updated")
+      navigate("/")
+    }
   }
+
 
   const [clickChangePassword, setOnClickChangePassword] = useState(false);
   const [clickDeleteAccount, setOnClickDeleteAccount] = useState(false);
@@ -126,9 +135,11 @@ function EditOrDeleteAccount() {
             <div>
               <div>
                 <button type="submit" onClick={handleDeleteAccount}>Yes, delete my account</button>
+                {message && <p>{message}</p>}
               </div>
               <div>
                 <button type="submit" onClick={handleCancelDeleteAccount}>Cancel</button>
+                {message && <p>{message}</p>}
               </div>
             </div>
           }
