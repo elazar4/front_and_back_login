@@ -52,6 +52,10 @@ function Login() {
     }
   };
 
+  const handleUsersTable = () => {
+    navigate("/UsersTable")
+  }
+
   return (
     <div className="login-container">
       <h2>Login</h2>
@@ -85,6 +89,9 @@ function Login() {
       </div>
       <div className="create-account">
         Don't have an account? <button onClick={handleCreateAccount}>Create Account</button>
+      </div>
+      <div>
+        See all Users <button onClick={handleUsersTable}>t</button>
       </div>
     </div>
   );

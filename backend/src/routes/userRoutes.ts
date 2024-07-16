@@ -1,5 +1,7 @@
 import express, { Request, Response } from 'express';
-import { createNewAccount, deleteAccount, loginUser, updateUser } from '../Services/service';
+import { createNewAccount, deleteAccount, getAllTheUsers, loginUser, updateUser } from '../Services/service';
+import { dbPool } from '../db';
+import { RowDataPacket } from 'mysql2';
 
 interface User {
   firstName: string;
@@ -9,6 +11,7 @@ interface User {
   age: string;
 }
 
+interface UserRow extends RowDataPacket, User { };
 
 interface ParamsReq extends Request {
   query: {
@@ -20,7 +23,7 @@ interface ParamsReq extends Request {
   }
 }
 
-interface updateReq extends Request{
+interface updateReq extends Request {
   body: {
     email: string,
     password: string,
@@ -28,7 +31,19 @@ interface updateReq extends Request{
 }
 const router = express.Router();
 
-router.post('/createUser', async (req:ParamsReq, res:Response) => {
+router.get('/getAllUsers', async (req, res) => {
+  try {
+    const users = await getAllTheUsers();
+    res.json(users);
+  }
+  catch (error) {
+    if (error instanceof Error && error.message === "Internal Server Error") {
+      res.status(500).send(error.message)
+    }
+  }
+});
+
+router.post('/createUser', async (req: ParamsReq, res: Response) => {
   const user: User = req.body;
   try {
     await createNewAccount(user)
@@ -69,7 +84,7 @@ router.get('/getUser', async (req: ParamsReq, res: Response) => {
 
 
 
-router.put('/updateUser', async (req:updateReq, res:Response) => {
+router.put('/updateUser', async (req: updateReq, res: Response) => {
   const { email, password } = req.body;
   try {
     await updateUser(email, password)

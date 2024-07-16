@@ -34,3 +34,10 @@ export const deleteUser = async (email: string) => {
     const query = 'DELETE FROM sys.users WHERE email = ?';
     await dbPool.query(query, [email])
 }
+
+
+export const getAllUsers = async () => {
+    const query = 'SELECT * FROM sys.users';
+    const [users] = await dbPool.query<UserRow[]>(query);
+    return users;
+}
