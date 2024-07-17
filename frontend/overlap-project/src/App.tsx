@@ -5,7 +5,7 @@ import Login from "./view/pages/login/Login";
 import CreateAccount from "./view/pages/create_account/CreateAccount";
 import Welcome from "./view/pages/Welcome";
 import EditOrDeleteAccount from "./view/pages/EditOrDeleteAccount";
-import UsersTable from "./view/pages/UsersTable";
+import UsersTable from "./view/pages/usersDisplay/UsersTable";
 
 function App() {
   return (
