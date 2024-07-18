@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { baseUrl } from "../../const";
+import { baseUrl } from "../../../const";
 
 interface BooleanArray {
   passwordValid: boolean;

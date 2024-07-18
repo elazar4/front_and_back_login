@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import "./Login.css";
 import { baseUrl } from "../../../const";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 function CorrectPassword(password: string): boolean {
-  return password.length >= 6
+  return password.length >= 6;
 }
 
 function CorrectEmail(email: string): boolean {
@@ -13,19 +15,12 @@ function CorrectEmail(email: string): boolean {
 }
 
 function Login() {
-
-  //const [formData, setFormData] = useState(formDataObject);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-  //const welcome = useNavigate();
 
   const [errorMessage, setErrorMessage] = useState("");
-
-  const handleCreateAccount = () => {
-    navigate("/createAccount");
-  };
 
   const handleWelcome = async () => {
     if (CorrectEmail(email) && CorrectPassword(password)) {
@@ -56,13 +51,15 @@ function Login() {
     navigate("/UsersTable")
   }
 
+
+  const inputValid = email.includes("@") && email.includes('.') && password.length >= 6;
+
   return (
     <div className="login-container">
       <h2>Login</h2>
-
       <div>
         <div>
-          Email:
+        Email:
           <input
             placeholder="email@example.com"
             name="Email"
@@ -83,15 +80,15 @@ function Login() {
           <p>{errorMessage}</p>
         </div>
         <div>
-          <button type="submit" onClick={handleWelcome}> Login</button>
-          {message && <p>{message}</p>}
+          <button type="submit" className={`login-button ${inputValid ? "valid":""}`} disabled={!inputValid} onClick={handleWelcome}>Login</button>
+          {message && <p><FontAwesomeIcon icon={faTriangleExclamation} style={{color: "#d15329",}} />{" " + message}</p>}
         </div>
       </div>
       <div className="create-account">
-        Don't have an account? <button onClick={handleCreateAccount}>Create Account</button>
+        Don't have an account? <NavLink className="link-create-account" to="/createAccount">Create account</NavLink>
       </div>
-      <div>
-        See all Users <button onClick={handleUsersTable}>t</button>
+      <div className="see-all-users">
+        <button onClick={handleUsersTable}>See all users</button>
       </div>
     </div>
   );

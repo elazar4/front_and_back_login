@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import 'react-datepicker/dist/react-datepicker.css';
 import "./CreateAccount.css";
@@ -54,10 +54,6 @@ function CreateAccount() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
-
-  const handleLogin = () => {
-    navigate("/");
-  };
 
   const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newFirstName = e.target.value;
@@ -252,7 +248,7 @@ function CreateAccount() {
       <button type="submit" onClick={handleWelcome}>Create Account</button>
       <p>{errorMessage}</p>
       <div className="login-redirect">
-        Already have an account? <button onClick={handleLogin}>Login</button>
+        Already have an account? <NavLink className="link-login" to="/">Login</NavLink>
       </div>
     </div>
   );

@@ -56,15 +56,20 @@ const UserTable = () => {
   return (
     <div>
       <h2>User List</h2>
-      <input
-        type="text"
-        placeholder="Search by email"
-        value={searchTerm}
-        onChange={handleSearch}
-      />
+      <div>
+        <input
+          className='search-box'
+          name='searchBox'
+          type="text"
+          placeholder="Search by email"
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+        <p></p>
+      </div>
       <table>
         <thead>
-          <tr>
+          <tr className='headers-table'>
             <th>Id</th>
             <th>First Name</th>
             <th>Last Name</th>

@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import "./Welcome.css"
 
 function Welcome() {
     const navigate = useNavigate();
@@ -15,8 +16,8 @@ function Welcome() {
                 <h1>Welcome {name} to my site!</h1>
                 <p>You've successfully connected</p>
             </div>
-            <div className="edit-or-delete--account">
-                Edit or delete account <button onClick={handleEditOrDeleteAccount}>Edit or delete Account</button>
+            <div className="edit-or-delete-account">
+                <button onClick={handleEditOrDeleteAccount}>Edit or delete Account</button>
             </div>
         </div>
     );

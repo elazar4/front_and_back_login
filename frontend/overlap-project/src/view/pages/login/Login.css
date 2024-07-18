@@ -2,7 +2,7 @@
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #407911;
+  background-color: #ced0cc;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,9 +11,10 @@ body {
 }
 
 .login-container {
-  background-color: #079542;
+  background-color: #abb0ad;
   padding: 40px;
   border-radius: 10px;
+  align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 400px;
   width: 100%;
@@ -23,10 +24,12 @@ body {
   text-align: center;
   margin-bottom: 20px;
   color: #333;
+
 }
 
 .login-container div {
   margin-bottom: 20px;
+  text-align: left;
 }
 
 .login-container input[type="email"],
@@ -43,17 +46,34 @@ body {
 .login-container button {
   width: 100%;
   padding: 10px;
-  background-color: #1bb86f;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+
 }
 
-.login-container button[type="submit"]:hover,
+
 .login-container button:hover {
-  background-color: #11ac42;
+  background-color: #696c6a;
+}
+
+.login-button.valid:hover {
+  background-color: #696c6a;
+}
+
+.login-button:disabled:hover {
+  background-color: #a39f9f;
+  cursor: not-allowed;
+}
+
+.login-button:disabled {
+  background-color: #a39f9f
+}
+
+.login-button.valid {
+  background-color: #4b4f4c;
 }
 
 .login-container p {
@@ -64,15 +84,21 @@ body {
 }
 
 .login-container .create-account {
+  color:#000000;
   text-align: center;
   margin-top: 20px;
 }
 
-.login-container .create-account button {
-  width: auto;
-  background-color: #28a745;
+.login-container .create-account .link-create-account {
+  color:#696c6a;
+  text-align: center;
+  margin-top: 20px;
 }
 
-.login-container .create-account button:hover {
-  background-color: #218838;
+.see-all-users button {
+  background-color: #696c6a;
+}
+
+.see-all-users button:hover {
+  background-color: #818582;
 }
