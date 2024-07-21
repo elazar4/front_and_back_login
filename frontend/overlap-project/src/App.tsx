@@ -4,8 +4,8 @@ import "./App.css";
 import Login from "./view/pages/login/Login";
 import CreateAccount from "./view/pages/create_account/CreateAccount";
 import Welcome from "./view/pages/home/Welcome";
-import EditOrDeleteAccount from "./view/pages/EditOrDeleteAccount";
 import UsersTable from "./view/pages/usersDisplay/UsersTable";
+import EditOrDeleteAccount from "./view/pages/EditAccount/EditOrDeleteAccount";
 
 function App() {
   return (
