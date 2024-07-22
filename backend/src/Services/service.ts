@@ -1,4 +1,5 @@
 import { createAccount, deleteUser, getAllUsers, selectUserByEmail, updatePassword, User } from "../Reposytories/Repo"
+import { generateUser } from "../usersGenerate";
 
 
 
@@ -45,5 +46,11 @@ export const getAllTheUsers = async () => {
         throw new Error("Internal Server Error");
     } else {
         return users;
+    }
+}
+
+export const getnerate10Users = async () => {
+    for (let i = 0; i < 10; i++) {
+        await generateUser();  
     }
 }

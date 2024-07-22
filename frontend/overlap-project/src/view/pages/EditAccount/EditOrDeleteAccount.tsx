@@ -94,7 +94,6 @@ function EditOrDeleteAccount() {
   }
   return (
     <div>
-
       <div>
         <button type="submit" onClick={handleClickChangePassword}>Change password</button>
       </div>

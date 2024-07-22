@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { createNewAccount, deleteAccount, getAllTheUsers, loginUser, updateUser } from '../Services/service';
+import { createNewAccount, deleteAccount, getAllTheUsers, getnerate10Users, loginUser, updateUser } from '../Services/service';
 import { dbPool } from '../db';
 import { RowDataPacket } from 'mysql2';
 
@@ -101,6 +101,19 @@ router.delete('/deleteUser', async (req: ParamsReq, res: Response) => {
     res.status(200).send('delete user successful.');
   } catch (error) {
     res.status(500).send('Internal server error.');
+  }
+});
+
+router.post('/randomUsers', async (req: Request, res: Response) => {
+  try {
+    await getnerate10Users();
+    res.status(201).send('Users created successfully');
+  } catch (error) {
+    if (error instanceof Error && error.message === "User already exist.") {
+      res.status(409).send(error.message);
+    } else {
+      res.status(500).send('Internal Server Error');
+    }
   }
 });
 

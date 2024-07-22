@@ -51,6 +51,18 @@ function Login() {
     navigate("/UsersTable")
   }
 
+  const handleGenerateUsers = async () => {
+    try {
+      await axios.post(`${baseUrl}/randomUsers`);
+      alert("Users created successfuly!")
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        setErrorMessage(error.response.data);
+      } else {
+        setErrorMessage('An error occurred. Please try again later.');
+      }
+    }
+  }
 
   const inputValid = email.includes("@") && email.includes('.') && password.length >= 6;
 
@@ -86,6 +98,9 @@ function Login() {
       </div>
       <div className="create-account">
         Don't have an account? <NavLink className="link-create-account" to="/createAccount">Create account</NavLink>
+      </div>
+      <div className="generate-users">
+        <button onClick={handleGenerateUsers}>Generate users</button>
       </div>
       <div className="see-all-users">
         <button onClick={handleUsersTable}>See all users</button>

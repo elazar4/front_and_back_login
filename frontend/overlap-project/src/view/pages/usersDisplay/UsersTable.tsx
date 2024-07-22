@@ -54,7 +54,7 @@ const UserTable = () => {
   );
 
   return (
-    <div>
+    <div className='user-table-container'>
       <h2>User List</h2>
       <div>
         <input
@@ -67,6 +67,7 @@ const UserTable = () => {
         />
         <p></p>
       </div>
+      <div className="table-wrapper">
       <table>
         <thead>
           <tr className='headers-table'>
@@ -93,6 +94,7 @@ const UserTable = () => {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 };

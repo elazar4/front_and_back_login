@@ -102,3 +102,11 @@ body {
 .see-all-users button:hover {
   background-color: #818582;
 }
+
+.generate-users button {
+  background-color: #696c6a;
+}
+
+.generate-users button:hover {
+  background-color: #818582;
+}
